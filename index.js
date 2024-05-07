@@ -9,6 +9,7 @@ app.get("/", (req, res) => {
   res.send("Hello from Node Server!");
 });
 
+// get all products
 app.get('/api/products', async (req, res) => {
 
   try {
@@ -20,6 +21,21 @@ app.get('/api/products', async (req, res) => {
 
 })
 
+
+// get by id
+app.get('/api/products/:id', async (req, res) => {
+  try {
+
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    res.status(200).json(product);
+  } catch(error) {
+    res.status(500).json({message: error.message});
+  }
+});
+
+
+// post one product
 app.post('/api/products', async (req, res) => {
     try {
       const product =  await Product.create(req.body);
